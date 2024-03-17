@@ -34,8 +34,8 @@ export class MockServerService {
 
         if (
             this.users.find(
-                (user) =>
-                    user.username === user.username || user.email === user.email
+                (u) =>
+                    u.username === user.username || u.email === user.email
             )
         ) {
             return HttpResponseHandler.error(

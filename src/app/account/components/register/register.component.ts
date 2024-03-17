@@ -10,7 +10,7 @@ import { AccountService } from '@app/account/services/account.service';
 import { BaseComponent } from '@app/shared/components/base/base.component';
 import { COUNTRIES } from '@app/shared/constants/countries.constant';
 import { NotificationService } from '@app/shared/services/notification.service';
-import { takeUntil } from 'rxjs';
+import { switchMap, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-register',
@@ -26,7 +26,7 @@ export class RegisterComponent extends BaseComponent implements OnInit {
         private formBuilder: FormBuilder,
         private accountService: AccountService,
         private router: Router,
-        private notificationService: NotificationService
+        private notification: NotificationService
     ) {
         super();
     }
@@ -59,15 +59,23 @@ export class RegisterComponent extends BaseComponent implements OnInit {
         if (this.form.valid) {
             this.accountService
                 .register(this.form.value)
+                .pipe(
+                    switchMap(() =>
+                        this.accountService.login(
+                            this.form.value.username,
+                            this.form.value.password
+                        )
+                    )
+                )
                 .pipe(takeUntil(this.destroyed$))
                 .subscribe({
                     next: (res) => {
-                        this.notificationService.show('Register success');
-                        this.router.navigateByUrl('/account/login');
+                        this.notification.show('Login successful');
+                        this.router.navigateByUrl('');
                     },
                     error: (err) => {
-                        console.error(`Register error:`, err.error.message);
-                        this.notificationService.show(err.error.message);
+                        console.error(`Error:`, err.error.message);
+                        this.notification.show(err.error.message);
                     },
                 });
         }
