@@ -1,0 +1,178 @@
+<div class="register-page">
+    <mat-card class="register-page__form">
+        <mat-card-title class="codix-form__title">
+            {{ "Register" }}
+        </mat-card-title>
+
+        <mat-card-content>
+            <form [formGroup]="form" (ngSubmit)="submit()">
+                <p>
+                    <mat-form-field class="codix-form__form-field">
+                        <input
+                            type="text"
+                            matInput
+                            placeholder="Nickname"
+                            formControlName="username"
+                        />
+                    </mat-form-field>
+
+                    <ng-container
+                        *ngTemplateOutlet="
+                            requiredError;
+                            context: { field: 'username' }
+                        "
+                    ></ng-container>
+                </p>
+
+                <p>
+                    <mat-form-field class="codix-form__form-field">
+                        <input
+                            type="password"
+                            matInput
+                            placeholder="Password"
+                            formControlName="password"
+                        />
+                    </mat-form-field>
+
+                    <ng-container
+                        *ngTemplateOutlet="
+                            requiredError;
+                            context: { field: 'password' }
+                        "
+                    ></ng-container>
+                </p>
+
+                <p>
+                    <mat-form-field class="codix-form__form-field">
+                        <input
+                            type="password"
+                            matInput
+                            placeholder="Confirm password"
+                            formControlName="confirmPassword"
+                        />
+                    </mat-form-field>
+
+                    <ng-container
+                        *ngIf="form.invalid && (form.dirty || form.touched)"
+                    >
+                        <mat-error
+                            *ngIf="
+                                form.hasError('notSame') &&
+                                (form.get('confirmPassword')?.dirty ||
+                                    form.get('confirmPassword')?.touched)
+                            "
+                        >
+                            {{
+                                "Password and confirm password must be the same"
+                            }}
+                        </mat-error>
+                    </ng-container>
+                </p>
+
+                <p>
+                    <mat-form-field class="codix-form__form-field">
+                        <input
+                            type="email"
+                            matInput
+                            placeholder="Email"
+                            formControlName="email"
+                        />
+                    </mat-form-field>
+
+                    <ng-container
+                        *ngIf="form.invalid && (form.dirty || form.touched)"
+                    >
+                        <mat-error
+                            *ngIf="
+                                form.get('email')?.hasError('email') &&
+                                (form.get('email')?.dirty ||
+                                    form.get('email')?.touched)
+                            "
+                        >
+                            {{ "Invalid email format" }}
+                        </mat-error>
+
+                        <ng-container
+                            *ngTemplateOutlet="
+                                requiredError;
+                                context: { field: 'email' }
+                            "
+                        ></ng-container>
+                    </ng-container>
+                </p>
+
+                <p>
+                    <mat-form-field class="codix-form__form-field">
+                        <input
+                            type="tel"
+                            matInput
+                            placeholder="Phone"
+                            formControlName="phone"
+                        />
+                    </mat-form-field>
+
+                    <ng-container
+                        *ngTemplateOutlet="
+                            requiredError;
+                            context: { field: 'phone' }
+                        "
+                    ></ng-container>
+
+                    <mat-error
+                        *ngIf="
+                            form.get('phone')?.hasError('pattern') &&
+                            (form.get('phone')?.dirty ||
+                                form.get('phone')?.touched)
+                        "
+                    >
+                        {{ "Invalid phone number format." }}
+                    </mat-error>
+                </p>
+
+                <p>
+                    <mat-form-field class="codix-form__form-field">
+                        <mat-label>Country</mat-label>
+                        <mat-select formControlName="country">
+                            <mat-option
+                                *ngFor="let country of countries"
+                                [value]="country"
+                            >
+                                {{ country }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <ng-container
+                        *ngTemplateOutlet="
+                            requiredError;
+                            context: { field: 'country' }
+                        "
+                    ></ng-container>
+                </p>
+
+                <div
+                    class="codix-form__button-container codix-form__button-container--space-between"
+                >
+                    <a routerLink="/account/login">
+                        {{ "Back to login" }}
+                    </a>
+
+                    <button type="submit" mat-button [disabled]="form.invalid">
+                        {{ "Register" }}
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+    <ng-template #requiredError let-field="field">
+        <mat-error
+            *ngIf="
+                form.get(field)?.hasError('required') &&
+                (form.get(field)?.dirty || form.get(field)?.touched)
+            "
+        >
+            {{ "This field is required" }}
+        </mat-error>
+    </ng-template>
+</div>
