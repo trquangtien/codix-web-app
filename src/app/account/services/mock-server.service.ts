@@ -32,12 +32,7 @@ export class MockServerService {
         const user = body;
         let users = this.users;
 
-        if (
-            this.users.find(
-                (u) =>
-                    u.username === user.username || u.email === user.email
-            )
-        ) {
+        if (this.checkUserExisted(user.username, user.email)) {
             return HttpResponseHandler.error(
                 'Nickname or Email is already taken'
             );
@@ -51,6 +46,18 @@ export class MockServerService {
 
     updateUser(body: User, userId: string) {
         let updatedUser = null;
+
+        const alreadyTaken = this.checkUserExistedButCurrent(
+            body.username,
+            body.email
+        );
+
+        if (alreadyTaken) {
+            return HttpResponseHandler.error(
+                'Nickname or Email is already taken'
+            );
+        }
+
         const newUsers = this.users.map((user) => {
             if (user.id === userId) {
                 const toUpdateUser = {
@@ -75,5 +82,20 @@ export class MockServerService {
 
         localStorage.setItem(usersKey, JSON.stringify(newUsers));
         return HttpResponseHandler.ok(updatedUser);
+    }
+
+    private checkUserExisted(username: string, email: string): boolean {
+        return this.users.some(
+            (user) => user.username === username || user.email === email
+        );
+    }
+
+    private checkUserExistedButCurrent(
+        username: string,
+        email: string
+    ): boolean {
+        return this.users.some(
+            (user) => user.username === username && user.email !== email
+        );
     }
 }
