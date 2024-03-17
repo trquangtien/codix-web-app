@@ -20,7 +20,9 @@ export class MockServerService {
         );
 
         if (!user) {
-            return HttpResponseHandler.error('Username or password is incorrect');
+            return HttpResponseHandler.error(
+                'Username or password is incorrect'
+            );
         }
 
         return HttpResponseHandler.ok(user);
@@ -32,10 +34,13 @@ export class MockServerService {
 
         if (
             this.users.find(
-                (x) => x.username === user.username || x.email === user.email
+                (user) =>
+                    user.username === user.username || user.email === user.email
             )
         ) {
-            return HttpResponseHandler.error('Nickname or Email is already taken');
+            return HttpResponseHandler.error(
+                'Nickname or Email is already taken'
+            );
         }
 
         user.id = uuid.v4();

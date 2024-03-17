@@ -9,27 +9,29 @@
             routerLink="/"
         />
 
-        <div *ngIf="accountService.loginUser">
-            <button
-                mat-icon-button
-                title="My Profile"
-                class="example-icon"
-                aria-label="Example icon-button with share icon"
-                routerLink="/user/my-profile"
-            >
-                <mat-icon>face</mat-icon>
-            </button>
+        @if(accountService.loginUser) {
+            <div>
+                <button
+                    mat-icon-button
+                    title="My Profile"
+                    class="example-icon"
+                    aria-label="Example icon-button with share icon"
+                    routerLink="/user/my-profile"
+                >
+                    <mat-icon>face</mat-icon>
+                </button>
 
-            <button
-                mat-icon-button
-                class="example-icon"
-                aria-label="Example icon-button with share icon"
-                title="Logout"
-                (click)="logout()"
-            >
-                <mat-icon>logout</mat-icon>
-            </button>
-        </div>
+                <button
+                    mat-icon-button
+                    class="example-icon"
+                    aria-label="Example icon-button with share icon"
+                    title="Logout"
+                    (click)="logout()"
+                >
+                    <mat-icon>logout</mat-icon>
+                </button>
+            </div>
+        }
     </mat-toolbar>
 
     <div class="codix-app__container">

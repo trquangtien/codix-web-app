@@ -62,16 +62,12 @@ export class RegisterComponent extends BaseComponent implements OnInit {
                 .pipe(takeUntil(this.destroyed$))
                 .subscribe({
                     next: (res) => {
-                        this.notificationService.show(
-                            'Register success'
-                        );
+                        this.notificationService.show('Register success');
                         this.router.navigateByUrl('/account/login');
                     },
                     error: (err) => {
                         console.error(`Register error:`, err.error.message);
-                        this.notificationService.show(
-                            err.error.message
-                        );
+                        this.notificationService.show(err.error.message);
                     },
                 });
         }

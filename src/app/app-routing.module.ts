@@ -8,19 +8,19 @@ const routes: Routes = [
     {
         path: 'account',
         loadChildren: () =>
-            import('./account/account.module').then((m) => m.AccountModule),
+            import('./account/account.module').then((m) => m.AccountModule)
     },
     {
         path: 'user',
         loadChildren: () =>
             import('./user/user.module').then((m) => m.UserModule),
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard]
     },
-    { path: '**', redirectTo: '' },
+    { path: '**', redirectTo: '' }
 ];
 
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule],
+    exports: [RouterModule]
 })
 export class AppRoutingModule {}

@@ -1,10 +1,4 @@
-import {
-    Component,
-    Input,
-    OnChanges,
-    OnInit,
-    SimpleChanges,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
     FormBuilder,
     FormControl,
@@ -76,9 +70,7 @@ export class MyProfileComponent extends BaseComponent implements OnInit {
                     },
                     error: (err) => {
                         console.error(`Register error:`, err.error.message);
-                        this.notificationService.show(
-                            err.error.message
-                        );
+                        this.notificationService.show(err.error.message);
                     },
                 });
         }
